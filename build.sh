@@ -46,7 +46,12 @@ fi
 
 # binutils
 fetchextract "$BINUTILS_URL"
-BINUTILS_DIR=$(stripfileext $(basename $BINUTILS_URL))
+if [ -e $BINUTILS_EXTRACT_DIR ]; then
+  mv $BINUTILS_EXTRACT_DIR binutils-$BINUTILS_VERSION
+  BINUTILS_DIR=binutils-$BINUTILS_VERSION
+else
+  BINUTILS_DIR=$(stripfileext $(basename $BINUTILS_URL))
+fi
 
 sed -i -e 's,MAKEINFO="$MISSING makeinfo",MAKEINFO=true,g' \
     $BINUTILS_DIR/configure
